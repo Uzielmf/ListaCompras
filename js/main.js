@@ -1,3 +1,8 @@
+
+let contador = 0;
+
+let costoTotal = 0;
+
 let element = document.getElementById("totalPrecio");
 element.innerHTML="Total en precio";
 
@@ -5,6 +10,9 @@ let txtNombre = document.getElementById("Name");
 //txtNombre.value="Leche Semidescremada";
 let txtNumber = document.getElementById("Number");
 
+let total =document.getElementById("precioTotal");
+
+//let   =document.getElementById("");
 
 /*let campos= document.getElementsByClassName("campo");
 campos[0].value="Leche descremada deslactosada leght=Agua";
@@ -34,14 +42,76 @@ cuerpoTabla[0].innerHTML = `<tr>
 </tr> `;
 */
 
+function validarNombre() {
+    if (txtNombre.value.length <3) {
+        return false;
+    }
+    return true;
+}
+
+function validarCantidad() {
+    if (isNaN (txtNumber.value.length == 0)) {
+        return false
+    }
+    if (isNaN (txtNumber.value)) {
+        return false
+    }
+    if (parseFloat(txtNumber.value)<=0) {
+        return false;
+    }
+    return true 
+}
+
+
+
+
 
 let agregar = document.getElementById("btnAgregar");
 
 
 agregar.addEventListener ("click", (event)=> {
-    let precio = Math.random() * 50;
+        event.preventDefault();
+        if ((! validarNombre()) || (! validarCantidad()) ) {
+            document.getElementById("alertValidacionesTexto").innerHTML="Loscampos deben ser llenados correctamente"
+            document.getElementById("alertValidaciones").style.display="block";
+            if ( (!validarNombre()) || (! validarCantidad())) {
+                let lista="";
+            
+            if (!validarNombre()) {
+                txtNombre.style.border="red thin solid";
+                lista+="<li>Se debe escribir un nombre valido</li>";
+            }
+            if (!validarCantidad()) {
+                txtNumber.style.border="red thing solid";
+                lista+="<li>Se debe escribir un nombre valido</li>";
+            }
+
+            document.getElementById("alertValidacionesTexto").innerHTML=
+            `Los campos deben ser llenados correctamente.
+            <ul>${lista} </ul>
+            `;
+            document.getElementById("alertValidaciones").style.display="block";
+            
+            setTimeout (function() {
+                document.getElementById("alertValidaciones").style.display="none";
+            },
+                3000
+            );
+    
+            return false;
+        }
+
+        
+
+        document.getElementById("alertValidaciones").style.display="none";
+        contador++;
+        document.getElementById("contadorProductos").innerHTML=contador
+    let precio =   (Math.floor((Math.random() * 50)*100))/100;
+    let cantidad = parseFloat (txtNumber.value);
+    costoTotal += (precio * cantidad);
+    total.innerHTML = `$ ${costoTotal.toFixed(2)}`;
     let tmp = `<tr>
-<th scope="row">1</th>
+<th scope="row">${contador}</th>
 <td>${txtNombre.value}</td>
 <td>${txtNumber.value}</td>
 <td>$ ${precio}</td>
@@ -51,11 +121,21 @@ cuerpoTabla[0].innerHTML += tmp;
 txtNumber.value ="";
 txtNombre.value ="";
 txtNombre.focus();
-
         
     }
 );
 
+
+
+txtNombre.addEventListener("blur", (event) => {
+    event.target.value = event.target.value.trim()
+}
+);
+
+txtNumber.addEventListener("blur", (event) => {
+    event.target.value = event.target.value.trim()
+}
+);
 //table lista de compras
 
 /*<tr>
