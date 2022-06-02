@@ -98,16 +98,17 @@ agregar.addEventListener("click", (event)=> {
     // console.log("Click en el botón",event.target);
     contador++;
     document.getElementById("contadorProduct").innerHTML= contador;
+    localStorage.setItem ("contadorProduct", contador);
     let precio = (Math.floor( (Math.random()*50) *100) )/100;
     let cantidad = parseFloat(txtNumber.value);   //para obtener la cantidad convierte el input de cantidad a numero
     totalPrec += precio * cantidad;  // obtiene el precio total precio unitario*cantidad
     total.innerHTML = `$ ${totalPrec.toFixed(2)}`; // muestra en el html el precio total
-
+    localStorage.setItem("precioTotal", totalPrec.toFixed(2))
     
     totalProd += (cantidad<1)? Math.ceil(cantidad) : parseInt(cantidad);   // solo redondea cantidades 0.5 a 1 y las demas se queda con el entero
     // totalProd += Math.ceil(cantidad);        // Redondea al entero superior
     document.getElementById("totalProduct").innerHTML = totalProd;   // Muestra el total de productos en el span totalProd
-
+    localStorage.setItem ("totalProduct", totalProd);
     
     let tmp = `<tr>
     <th scope="row">${contador}</th>
@@ -135,4 +136,23 @@ txtNombre.addEventListener("blur",(event)=>{
 txtNumber.addEventListener("blur",(event)=>{
     event.target.value = event.target.value.trim();
    
-}) //reacciona a evento  cuando se pierde el foco
+}); //reacciona a evento  cuando se pierde el foco
+
+window.addEventListener("load", function () {
+    if (localStorage.getItem ("contadorProduct") != null){
+        contador =parseInt(localStorage.getItem ("contadorProduct"))
+    };
+    
+    if(localStorage.getItem ("totalProduct"));{
+        totalProd =parseInt(localStorage.getItem ("totalProduct"));
+        document.getElementById("totalProd").innerHTML = totalProd;
+    }
+
+    
+    if (localStorage.getItem("precioTotal"));{
+        precioTotal = parseFloat(localStorage.getItem ("precioTotal"));
+        total.innerHTML = precioTotal;
+    }
+    
+}
+);
