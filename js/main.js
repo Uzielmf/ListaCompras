@@ -1,147 +1,138 @@
-
-let contador = 0;
-
-let costoTotal = 0;
-
-let element = document.getElementById("totalPrecio");
-element.innerHTML="Total en precio";
+let Element = document.getElementById("totalPrecio");
+    Element.innerHTML = "Total en precio";
 
 let txtNombre = document.getElementById("Name");
-//txtNombre.value="Leche Semidescremada";
-let txtNumber = document.getElementById("Number");
+    // txtNombre.value = "Leche Semidescremada";
+    // let a = txtNombre.value;
 
-let total =document.getElementById("precioTotal");
 
-//let   =document.getElementById("");
+let txtNumber = document.getElementById("Number");   
 
-/*let campos= document.getElementsByClassName("campo");
-campos[0].value="Leche descremada deslactosada leght=Agua";
-console.log(campos[0].value);
-console.log(campos);
+let total = document.getElementById("costoTotal");   // span donde se muestra el costo total
 
-for (let i = 0; i < campos.length; i++) {
-    campos [i].style.border="red thin solid";
-    
-}
+// let campos = document.getElementsByClassName("campo");
+// campos[0].value = "Leche descremada descaltosada light = agua";
+// console.log(campos[0].value);
 
-let spans = document.getElementsByTagName ("span");
-for (let i = 0; i < spans.length; i++) {
-    console.log(spans[i].textContent);
-}
-*/
+// for (let i=0; i<campos.length;i++){
+//     campos[i].style.border="red thin solid";
+// }
 
-let tabla = document.getElementById("tablaListaCompras");
-let cuerpoTabla = tabla.getElementsByTagName("tbody");
 
-/*
-cuerpoTabla[0].innerHTML = `<tr>
-<th scope="row">1</th>
-<td>Leche descremada</td>
-<td>1</td>
-<td>$ 23</td>
-</tr> `;
-*/
+// let spans = document.getElementsByTagName("span");
+// for (let i =0 ; i<spans.length;i++){
+//     console.log(spans[i].textContent);
+// }
 
-function validarNombre() {
-    if (txtNombre.value.length <3) {
+
+let tabla = document.getElementById("tablaCompras");       // Se refiere a la tabla  de compras 
+let cuerpotabla = tabla.getElementsByTagName("tbody");     //Se refiere al cuerpo de la tabla
+
+
+let contador = 0;
+let totalPrec = 0;
+let totalProd = 0;
+let agregar = document.getElementById("btnAgregar");
+console.log(agregar);
+// agregar.addEventListener("click",)
+
+
+function validarnombre () {
+    if(txtNombre.value.length==0) {
+        return false;
+    }
+    if(txtNombre.value.lenght<3){
         return false;
     }
     return true;
 }
 
-function validarCantidad() {
-    if (isNaN (txtNumber.value.length == 0)) {
-        return false
-    }
-    if (isNaN (txtNumber.value)) {
-        return false
-    }
-    if (parseFloat(txtNumber.value)<=0) {
+function validarCantidad () {
+    if(txtNumber.value.length==0) {
         return false;
     }
-    return true 
+    if (isNaN(txtNumber.value)){
+        return false;
+    }
+    if (parseFloat(txtNumber.value)<=0){
+        return false;
+    }
+    return true;
 }
 
+agregar.addEventListener("click", (event)=> {
+    event.preventDefault();
+    if ( (!validarnombre()) || (!validarCantidad ()) ){
+        let lista = "";
 
 
+        if(!validarCantidad ()){
+            txtNumber.style.border = "red thin solid";
+            lista+= "<li> Se debe escribir una cantidad válida </li>"
 
-
-let agregar = document.getElementById("btnAgregar");
-
-
-agregar.addEventListener ("click", (event)=> {
-        event.preventDefault();
-        if ((! validarNombre()) || (! validarCantidad()) ) {
-            document.getElementById("alertValidacionesTexto").innerHTML="Loscampos deben ser llenados correctamente"
-            document.getElementById("alertValidaciones").style.display="block";
-            if ( (!validarNombre()) || (! validarCantidad())) {
-                let lista="";
-            
-            if (!validarNombre()) {
-                txtNombre.style.border="red thin solid";
-                lista+="<li>Se debe escribir un nombre valido</li>";
-            }
-            if (!validarCantidad()) {
-                txtNumber.style.border="red thing solid";
-                lista+="<li>Se debe escribir un nombre valido</li>";
-            }
-
-            document.getElementById("alertValidacionesTexto").innerHTML=
-            `Los campos deben ser llenados correctamente.
-            <ul>${lista} </ul>
-            `;
-            document.getElementById("alertValidaciones").style.display="block";
-            
-            setTimeout (function() {
-                document.getElementById("alertValidaciones").style.display="none";
-            },
-                3000
-            );
-    
-            return false;
         }
 
-        
+        if(!validarnombre () ){
+            txtNombre.style.border = "red thin solid";
+            lista+= "<li> Se debe escribir un nombre válido </li>"
+        }
 
-        document.getElementById("alertValidaciones").style.display="none";
-        contador++;
-        document.getElementById("contadorProductos").innerHTML=contador
-    let precio =   (Math.floor((Math.random() * 50)*100))/100;
-    let cantidad = parseFloat (txtNumber.value);
-    costoTotal += (precio * cantidad);
-    total.innerHTML = `$ ${costoTotal.toFixed(2)}`;
-    let tmp = `<tr>
-<th scope="row">${contador}</th>
-<td>${txtNombre.value}</td>
-<td>${txtNumber.value}</td>
-<td>$ ${precio}</td>
-</tr> `
 
-cuerpoTabla[0].innerHTML += tmp;
-txtNumber.value ="";
-txtNombre.value ="";
-txtNombre.focus();
+        document.getElementById("alerttexto").innerHTML= `Los campos deben ser llenados correctamente. 
+        <ul>${lista} </ul>`;
+
+
+        document.getElementById("alertvalidaciones").style.display="block";
         
+        setTimeout(function(){
+        document.getElementById("alertvalidaciones").style.display = "none";
+        }, 5000);
+        return false;
     }
-);
 
+    txtNombre.style.border = "";
+    txtNumber.style.border = "";
 
+    document.getElementById("alertvalidaciones").style.display="none";
 
-txtNombre.addEventListener("blur", (event) => {
-    event.target.value = event.target.value.trim()
+    // console.log("Click en el botón",event.target);
+    contador++;
+    document.getElementById("contadorProduct").innerHTML= contador;
+    let precio = (Math.floor( (Math.random()*50) *100) )/100;
+    let cantidad = parseFloat(txtNumber.value);   //para obtener la cantidad convierte el input de cantidad a numero
+    totalPrec += precio * cantidad;  // obtiene el precio total precio unitario*cantidad
+    total.innerHTML = `$ ${totalPrec.toFixed(2)}`; // muestra en el html el precio total
+
+    
+    totalProd += (cantidad<1)? Math.ceil(cantidad) : parseInt(cantidad);   // solo redondea cantidades 0.5 a 1 y las demas se queda con el entero
+    // totalProd += Math.ceil(cantidad);        // Redondea al entero superior
+    document.getElementById("totalProduct").innerHTML = totalProd;   // Muestra el total de productos en el span totalProd
+
+    
+    let tmp = `<tr>
+    <th scope="row">${contador}</th>
+    <td>${txtNombre.value}</td>
+    <td>${txtNumber.value}</td>
+    <td>$ ${precio.toFixed(2)}</td>
+    </tr>
+    <tr>`
+
+    cuerpotabla[0].innerHTML += tmp;   // sube el nombre cantidad y precio al html +=para que se vaya acumulando
+
+    txtNombre.value = "";  // Vacia el espacio de nombre y cantidad
+    txtNumber.value = "";
+    txtNombre.focus();    // Manda el foco al espacio de nombre
 }
 );
 
-txtNumber.addEventListener("blur", (event) => {
-    event.target.value = event.target.value.trim()
-}
-);
-//table lista de compras
 
-/*<tr>
-              <th scope="row">1</th>
-              <td>Leche descremada</td>
-              <td>1</td>
-              <td>$ 23</td>
-            </tr>
-            */
+txtNombre.addEventListener("blur",(event)=>{
+    event.target.value = event.target.value.trim();  //quita los espacios en blanco
+   
+   
+}) //reacciona a evento  cuando se pierde el foco
+
+txtNumber.addEventListener("blur",(event)=>{
+    event.target.value = event.target.value.trim();
+   
+}) //reacciona a evento  cuando se pierde el foco
