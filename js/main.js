@@ -155,7 +155,7 @@ if (localStorage.getItem ("elementosTabla") != null) {
         <td>${element.nombre}</td>
         <td>${element.cantidad}</td>
         <td>$ ${element.precio}</td>
-        </tr> `;
+        </tr> `
     });
     }// if elementostabla
 
